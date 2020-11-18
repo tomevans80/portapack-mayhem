@@ -203,8 +203,8 @@ ScannerView::ScannerView(
 
 	});
 
-	def_step = change_mode(AM);	//Start on AM
-	field_mode.set_by_value(AM);	//Reflect the mode into the manual selector
+	def_step = change_mode(NFM);	//Start on AM
+	field_mode.set_by_value(NFM);	//Reflect the mode into the manual selector
 
 	//HELPER: Pre-setting a manual range, based on stored frequency
 	rf::Frequency stored_freq = persistent_memory::tuned_frequency();
