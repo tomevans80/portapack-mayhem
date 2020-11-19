@@ -142,6 +142,18 @@ void ScannerView::handle_retune(uint32_t i) {
 		break;
 	case MAX_FREQ_LOCK:							//FREQ IS STRONG: GREEN and scanner will pause when on_statistics_update()
 		big_display.set_style(&style_green);
+
+		// try and set mode to AM if in air band
+		if (frequency_list[current_index]>=118000000 && frequency_list[current_index]<137000000 || frequency_list[current_index]>=240000000 && frequency_list[current_index]<380000000)
+		{
+			//change_mode(AM);	//Go to AM
+	        field_mode.set_by_value(AM);	//Reflect the mode into the manual selector
+	     }
+	     else
+	     {
+			 //change_mode(NFM);	//Go to NFM otherwise
+	         field_mode.set_by_value(NFM);	//Reflect the mode into the manual selector
+	     }
 		break;
 	default:	//freq lock is checking the signal, do not update display
 		return;
@@ -202,9 +214,8 @@ ScannerView::ScannerView(
 		&button_remove
 
 	});
-
-	def_step = change_mode(NFM);	//Start on AM
-	field_mode.set_by_value(NFM);	//Reflect the mode into the manual selector
+    change_mode(NFM); // seems to be needed even though called by field mode?
+	field_mode.set_by_value(NFM);	//Start on NFM and reflect the mode into the manual selector
 
 	//HELPER: Pre-setting a manual range, based on stored frequency
 	rf::Frequency stored_freq = persistent_memory::tuned_frequency();
